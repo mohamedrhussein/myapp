@@ -1,9 +1,16 @@
 import './App.css';
 import { useState } from 'react';
+import Shelf from './component/Shelf'
 
 function App() {
 
   const [showSearchPage, setShowSearchpage] = useState(false);
+
+  const bookshelves = [
+    { title: "Currently Reading", shelfName: "currentlyReading" },
+    { title: "Want to Read", shelfName: "wantToRead" },
+    { title: "Read", shelfName: "read" },
+  ];
 
   return (
     <div className="app">
