@@ -1,6 +1,23 @@
 import React from "react";
+import * as BooksAPI from "../BooksAPI";
 
-const Book = (title, authors, imageUrl) => {
+const Book = (title, authors, imageUrl, book, setBooks, isSearch, shelf) => {
+
+    const getShelfBooks = (event) => {
+        if (event.target.value !== "move") {
+            BooksAPI.update(book, event.target.value).then((response) =>
+                BooksAPI.getAll().then((newBooks) => {
+                    setBooks(newBooks);
+                })
+            );
+        }
+    };
+    const getShelfBooksInSearch = (event) => {
+        if (event.target.value !== "move") {
+            BooksAPI.update(book, event.target.value);
+        }
+    };
+    
     return (
         <div className="book">
             <div className="book-top">
@@ -13,7 +30,16 @@ const Book = (title, authors, imageUrl) => {
                     }}
                 ></div>
                 <div className="book-shelf-changer">
-                    <select>
+                    <select
+                        onChange={(event) => {
+                            if (!isSearch) {
+                                getShelfBooks(event);
+                            } else {
+                                getShelfBooksInSearch(event);
+                            }
+                        }}
+                        defaultValue={shelf}
+                    >
                         <option value="move" disabled>
                             Move to...
                         </option>
